@@ -155,7 +155,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
         Glide.with(this).load(imgCover).into(movieCoverImg);
         txtTitle.setText(movieTitle);
         txtDescription.setText(movieDetailText);
-        getSupportActionBar().setTitle(movieTitle);
+//        getSupportActionBar().setTitle(movieTitle);
 
 
     }

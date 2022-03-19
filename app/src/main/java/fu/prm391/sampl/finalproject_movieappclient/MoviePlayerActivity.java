@@ -2,7 +2,9 @@ package fu.prm391.sampl.finalproject_movieappclient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -51,12 +53,12 @@ public class MoviePlayerActivity extends AppCompatActivity {
         exoFloatingWidget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exoPlayer.setPlayWhenReady(false);
-                exoPlayer.release();
-                Intent serviceIntent = new Intent(MoviePlayerActivity.this, FloatingWidgetService.class);
-                serviceIntent.putExtra("videoUri", videoUri.toString());
-                startService(serviceIntent);
-                finish();
+                    exoPlayer.setPlayWhenReady(false);
+                    exoPlayer.release();
+                    Intent serviceIntent = new Intent(MoviePlayerActivity.this, FloatingWidgetService.class);
+                    serviceIntent.putExtra("videoUri", videoUri.toString());
+                    startService(serviceIntent);
+                    finish();
             }
         });
 

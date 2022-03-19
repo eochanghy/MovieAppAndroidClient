@@ -1,7 +1,11 @@
 package fu.prm391.sampl.finalproject_movieappclient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -13,11 +17,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +47,7 @@ import fu.prm391.sampl.finalproject_movieappclient.Model.MovieItemClickListenerN
 import fu.prm391.sampl.finalproject_movieappclient.Model.SliderSide;
 import fu.prm391.sampl.finalproject_movieappclient.Model.VideoDetail;
 
-public class MainActivity extends AppCompatActivity implements MovieItemClickListenerNew {
+public class MainActivity extends AppCompatActivity implements MovieItemClickListenerNew, NavigationView.OnNavigationItemSelectedListener {
     private MovieShowAdapter movieShowAdapter;
     private DatabaseReference mDatabaseReference;
     private List<VideoDetail> uploads, uploadListLatest, uploadListPoppular;
@@ -45,18 +57,38 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
     private TabLayout indicator, tabMovieAction;
     private RecyclerView rcvMovies, rcvMoviesWeek, tab;
     ProgressDialog progressDialog;
+
+    //Toolbar
+    private NavigationView navigationView;
+    private DrawerLayout mDrawerLayout;
+    private ImageView imgAvatar;
+    private TextView txtName, txtEmail;
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
-        progressDialog = new ProgressDialog(this);
         initViews();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.nav_drawer_open,
+                R.string.nav_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.actionbar);
+        progressDialog = new ProgressDialog(this);
+
+        showUserInformation();
         addAllMovies();
         moviesViewTab();
+
 
     }
 
@@ -256,6 +288,30 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         rcvMoviesWeek = findViewById(R.id.rcvMovies_week);
         rcvMovies = findViewById(R.id.rcvMovies);
         tab = findViewById(R.id.tabRecycler);
+
+        imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.img_avatar);
+        txtName = navigationView.getHeaderView(0).findViewById(R.id.txt_account_name);
+        txtEmail = navigationView.getHeaderView(0).findViewById(R.id.txt_account_email);
+    }
+
+    private void showUserInformation() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) {
+            return;
+        }
+        String strName = user.getDisplayName();
+        String strEmail = user.getEmail();
+        Uri photoUrl = user.getPhotoUrl();
+
+        if(strName == null) {
+            txtName.setVisibility(View.GONE);
+        } else {
+            txtName.setVisibility(View.VISIBLE);
+            txtName.setText(strName);
+        }
+        txtEmail.setText(strEmail);
+        Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(imgAvatar);
+
     }
 
     @Override
@@ -270,6 +326,31 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
                 imageView, "sharedName");
         startActivity(intent, options.toBundle());
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_home:
+
+                break;
+            case R.id.nav_favorite:
+                break;
+            case R.id.nav_account:
+                break;
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public class SliderTimer extends TimerTask {

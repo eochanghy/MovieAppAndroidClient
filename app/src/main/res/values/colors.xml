@@ -15,4 +15,6 @@
     <color name="player_bg">#000000</color>
     <color name="shutter_bg">#000000</color>
     <color name="video_player_bg">#000000</color>
+    <color name="top_nav_bg">#414141</color>
+    <color name="bottom_nav_bg">#EEEEEE</color>
 </resources>
