@@ -1,6 +1,7 @@
 package fu.prm391.sampl.finalproject_movieappclient.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import fu.prm391.sampl.finalproject_movieappclient.Model.SliderSide;
+import fu.prm391.sampl.finalproject_movieappclient.MovieDetailActivity;
+import fu.prm391.sampl.finalproject_movieappclient.MoviePlayerActivity;
 import fu.prm391.sampl.finalproject_movieappclient.R;
 
 public class SliderPagerAdapter extends PagerAdapter {
@@ -36,11 +39,14 @@ public class SliderPagerAdapter extends PagerAdapter {
         TextView slideTitle = slideLayout.findViewById(R.id.slide_title);
         FloatingActionButton floatingActionButton = slideLayout.findViewById(R.id.floatingActionButton);
         Glide.with(mContext).load(mList.get(position).getVideoThumb()).into(slideImage);
-        slideTitle.setText(mList.get(position).getVideoName()+"\n"+mList.get(position).getVideoDescription());
+        slideTitle.setText(mList.get(position).getVideoName());
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Play
+                Intent intent = new Intent(mContext, MoviePlayerActivity.class);
+                intent.putExtra("videoUri", mList.get(position).getVideoUrl());
+                mContext.startActivity(intent);
             }
         });
         container.addView(slideLayout);

@@ -26,6 +26,7 @@ import java.util.List;
 import fu.prm391.sampl.finalproject_movieappclient.Adapter.MovieShowAdapter;
 import fu.prm391.sampl.finalproject_movieappclient.Model.MovieItemClickListenerNew;
 import fu.prm391.sampl.finalproject_movieappclient.Model.VideoDetail;
+import fu.prm391.sampl.finalproject_movieappclient.Service.FloatingWidgetService;
 
 public class MovieDetailActivity extends AppCompatActivity implements MovieItemClickListenerNew {
     private MovieShowAdapter movieShowAdapter;
@@ -51,6 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
                 Intent intent = new Intent(MovieDetailActivity.this, MoviePlayerActivity.class);
                 intent.putExtra("videoUri", currentVideoUrl);
                 startActivity(intent);
+                stopService(new Intent(getApplicationContext(), FloatingWidgetService.class));
             }
         });
     }

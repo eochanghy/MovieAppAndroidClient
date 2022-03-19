@@ -56,6 +56,7 @@ public class MoviePlayerActivity extends AppCompatActivity {
                 Intent serviceIntent = new Intent(MoviePlayerActivity.this, FloatingWidgetService.class);
                 serviceIntent.putExtra("videoUri", videoUri.toString());
                 startService(serviceIntent);
+                finish();
             }
         });
 
