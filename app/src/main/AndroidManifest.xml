@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject_MovieAppClient">
         <activity
+            android:name=".MoviePlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MovieDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
