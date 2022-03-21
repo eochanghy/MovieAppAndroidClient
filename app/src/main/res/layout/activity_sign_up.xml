@@ -37,10 +37,25 @@
         android:padding="15dp"
         />
     <EditText
-        android:id="@+id/txtPassword"
+    android:id="@+id/txtPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Password"
+    android:textColorHint="#b5bcc4"
+    android:maxLength="50"
+    android:layout_marginTop="20dp"
+    android:imeOptions="actionDone"
+    android:inputType="textPassword"
+    android:drawableStart="@drawable/ic_lock_24"
+    android:textColor="@color/white"
+    android:background="@drawable/cuustom_input"
+    android:padding="15dp"/>
+
+    <EditText
+        android:id="@+id/txtRePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Re - Password"
         android:textColorHint="#b5bcc4"
         android:maxLength="50"
         android:layout_marginTop="20dp"

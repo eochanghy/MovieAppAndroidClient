@@ -17,9 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText txtEmail, txtPassword;
+    private EditText txtEmail, txtPassword, txtRePassword;
     private TextView signIn;
     private Button btnSignUp;
     private FirebaseAuth mAuth;
@@ -41,9 +44,35 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+    private boolean validateSignUp(String email, String pass, String repass) {
+        if(email.isEmpty() || pass.isEmpty() || repass.isEmpty()) {
+            Toast.makeText(this, "Please fill all..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!repass.equals(pass)) {
+            Toast.makeText(this, "RePassword is incorrect..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!validateEmail(email)) {
+            Toast.makeText(this, "Incorrect email..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
     private void onClickSignUp() {
         String strEmail = txtEmail.getText().toString().trim();
         String strPassword = txtPassword.getText().toString().trim();
+        String strRePassword = txtRePassword.getText().toString().trim();
+        if(!validateSignUp(strEmail, strPassword, strRePassword)) {
+            return;
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -66,9 +95,12 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+
+
     private void initView() {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
+        txtRePassword = findViewById(R.id.txtRePassword);
         signIn = findViewById(R.id.signin);
         btnSignUp = findViewById(R.id.btn_signUp);
     }
