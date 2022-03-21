@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:backgroundTint="@color/white"
             app:layout_constraintEnd_toEndOf="@id/image_view_movie"
             app:layout_constraintStart_toStartOf="@id/image_view_movie"
             app:layout_constraintTop_toTopOf="@id/image_view_movie"
@@ -70,6 +71,15 @@
             app:layout_constraintStart_toEndOf="@id/detail_movie_img"
             app:layout_constraintTop_toBottomOf="@id/detail_movie_cover"
             android:textColor="#ffffff"
+            />
+        <CheckBox
+            android:id="@+id/check_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:useMaterialThemeColors="false"
+            android:button="@drawable/selector_whishlist_item"
+            app:layout_constraintTop_toBottomOf="@+id/detail_movie_title"
+            app:layout_constraintStart_toStartOf="@+id/detail_movie_title"
             />
         <TextView
             android:id="@+id/detail_movie_description"

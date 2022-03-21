@@ -9,11 +9,15 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,9 +39,12 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
     private FloatingActionButton play_fab;
     private RecyclerView rcvCast, rcvSimilarMovies;
     private DatabaseReference mDatabaseReference;
-    private List<VideoDetail> uploads, actionMovies, sportMovies, comedyMovies, romanticMovies, adventureMovies;
-    private String currentVideoUrl;
+    private FirebaseUser currentUser;
+    private List<VideoDetail> uploads, actionMovies, sportMovies, cartoonMovies, romanticMovies, fantasyMovies;
+    private String currentVideoUrl, videoId;
+    private VideoDetail currentVideo;
     private String currentVideoCategory;
+    private CheckBox cbFavorite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
         initView();
         initSimilarMovieRecycle();
         initSimilarMovie();
-
+        initFavorite();
         play_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +60,40 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
                 intent.putExtra("videoUri", currentVideoUrl);
                 startActivity(intent);
                 stopService(new Intent(getApplicationContext(), FloatingWidgetService.class));
+            }
+        });
+
+
+        DatabaseReference favoriteListRef = FirebaseDatabase.getInstance().getReference().child("favoriteMovies");
+        cbFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    //add to wishlist
+                    favoriteListRef.child(currentUser.getUid()).child(currentVideo.getVideoId()).setValue(currentVideo);
+                } else {
+                    favoriteListRef.child(currentUser.getUid()).child(currentVideo.getVideoId()).removeValue();
+                }
+            }
+        });
+    }
+
+    private void initFavorite() {
+        DatabaseReference favoriteListRef = FirebaseDatabase.getInstance().getReference().child("favoriteMovies").child(currentUser.getUid());
+        favoriteListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot item: snapshot.getChildren()) {
+                    if(item.getKey().equals(currentVideo.getVideoId())) {
+                        cbFavorite.setChecked(true);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -66,15 +107,15 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
                 rcvSimilarMovies.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                 movieShowAdapter.notifyDataSetChanged();
                 break;
-            case "Adventure":
-                movieShowAdapter = new MovieShowAdapter(this, adventureMovies, this);
+            case "Fantasy":
+                movieShowAdapter = new MovieShowAdapter(this, fantasyMovies, this);
 
                 rcvSimilarMovies.setAdapter(movieShowAdapter);
                 rcvSimilarMovies.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                 movieShowAdapter.notifyDataSetChanged();
                 break;
-            case "Comedy":
-                movieShowAdapter = new MovieShowAdapter(this, comedyMovies, this);
+            case "Cartoon":
+                movieShowAdapter = new MovieShowAdapter(this, cartoonMovies, this);
 
                 rcvSimilarMovies.setAdapter(movieShowAdapter);
                 rcvSimilarMovies.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -100,9 +141,9 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
     private void initSimilarMovieRecycle() {
         uploads = new ArrayList<>();
         sportMovies = new ArrayList<>();
-        comedyMovies = new ArrayList<>();
+        cartoonMovies = new ArrayList<>();
         actionMovies = new ArrayList<>();
-        adventureMovies = new ArrayList<>();
+        fantasyMovies = new ArrayList<>();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("videos");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -114,10 +155,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
                         actionMovies.add(upload);
                     }
                     if(upload.getVideoCategory().equals("Adventure")) {
-                        adventureMovies.add(upload);
+                        fantasyMovies.add(upload);
                     }
-                    if(upload.getVideoCategory().equals("Comedy")) {
-                        comedyMovies.add(upload);
+                    if(upload.getVideoCategory().equals("Cartoon")) {
+                        cartoonMovies.add(upload);
                     }
                     if(upload.getVideoCategory().equals("Romantic")) {
                         romanticMovies.add(upload);
@@ -137,18 +178,23 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
     }
 
     private void initView() {
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        videoId = getIntent().getExtras().getString("movieId");
+        currentVideo = (VideoDetail) getIntent().getSerializableExtra("video");
         play_fab = findViewById(R.id.play_fab);
         txtTitle = findViewById(R.id.detail_movie_title);
         txtDescription = findViewById(R.id.detail_movie_description);
         movieThumbnail = findViewById(R.id.detail_movie_img);
         movieCoverImg = findViewById(R.id.detail_movie_cover);
         rcvSimilarMovies = findViewById(R.id.rcv_similar_movies);
-        String movieTitle = getIntent().getExtras().getString("title");
-        String imgRecoresId = getIntent().getExtras().getString("imgUrl");
-        String imgCover = getIntent().getExtras().getString("imgCover");
-        String movieDetailText = getIntent().getExtras().getString("movieDetail");
-        String movieUrl = getIntent().getExtras().getString("movieUrl");
-        String movieCategory = getIntent().getExtras().getString("movieCategory");
+        cbFavorite = findViewById(R.id.check_favorite);
+        String movieTitle = currentVideo.getVideoName();
+        String imgRecoresId = currentVideo.getVideoThumb();
+        String imgCover = currentVideo.getVideoThumb();
+        String movieDetailText = currentVideo.getVideoDescription();
+        String movieUrl = currentVideo.getVideoUrl();
+        String movieCategory = currentVideo.getVideoCategory();
+        String movieId = currentVideo.getVideoId();
         currentVideoUrl = movieUrl;
         currentVideoCategory = movieCategory;
         Glide.with(this).load(imgRecoresId).into(movieThumbnail);
@@ -162,14 +208,20 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
 
     @Override
     public void onMovieClick(VideoDetail videoDetail, ImageView imageView) {
-        txtTitle.setText(videoDetail.getVideoName());
-        getSupportActionBar().setTitle(videoDetail.getVideoName());
-        Glide.with(this).load(videoDetail.getVideoThumb()).into(movieThumbnail);
-        Glide.with(this).load(videoDetail.getVideoThumb()).into(movieCoverImg);
-        txtDescription.setText(videoDetail.getVideoDescription());
-        currentVideoUrl = videoDetail.getVideoUrl();
-        currentVideoCategory = videoDetail.getVideoCategory();
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MovieDetailActivity.this, imageView, "sharedName");
-        options.toBundle();
+//        txtTitle.setText(videoDetail.getVideoName());
+//        Glide.with(this).load(videoDetail.getVideoThumb()).into(movieThumbnail);
+//        Glide.with(this).load(videoDetail.getVideoThumb()).into(movieCoverImg);
+//        txtDescription.setText(videoDetail.getVideoDescription());
+//        currentVideoUrl = videoDetail.getVideoUrl();
+//        currentVideoCategory = videoDetail.getVideoCategory();
+//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MovieDetailActivity.this, imageView, "sharedName");
+//        options.toBundle();
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra("video", videoDetail);
+
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                imageView, "sharedName");
+        startActivity(intent, options.toBundle());
+        finish();
     }
 }

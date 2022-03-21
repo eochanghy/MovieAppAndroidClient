@@ -1,7 +1,9 @@
 package fu.prm391.sampl.finalproject_movieappclient.Model;
 
-public class VideoDetail {
-    private String videoSlide, videoType, videoThumb, videoUrl, videoName, videoDescription, videoCategory;
+import java.io.Serializable;
+
+public class VideoDetail implements Serializable {
+    private String videoId, videoSlide, videoType, videoThumb, videoUrl, videoName, videoDescription, videoCategory;
 
     public VideoDetail() {
     }
@@ -15,6 +17,31 @@ public class VideoDetail {
         this.videoName = videoName;
         this.videoDescription = videoDescription;
         this.videoCategory = videoCategory;
+    }
+
+    public VideoDetail(String videoId, String videoSlide, String videoType, String videoThumb, String videoUrl, String videoName, String videoDescription, String videoCategory) {
+        this.videoId = videoId;
+        this.videoSlide = videoSlide;
+        this.videoType = videoType;
+        this.videoThumb = videoThumb;
+        this.videoUrl = videoUrl;
+        this.videoName = videoName;
+        this.videoDescription = videoDescription;
+        this.videoCategory = videoCategory;
+    }
+
+    public VideoDetail(String videoId, String videoThumb, String videoName) {
+        this.videoId = videoId;
+        this.videoThumb = videoThumb;
+        this.videoName = videoName;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
     public String getVideoSlide() {

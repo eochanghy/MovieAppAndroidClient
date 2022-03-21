@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
     private MovieShowAdapter movieShowAdapter;
     private DatabaseReference mDatabaseReference;
     private List<VideoDetail> uploads, uploadListLatest, uploadListPoppular;
-    private List<VideoDetail> actionMovies, sportMovies, comedyMovies, romanticMovies, adventure;
+    private List<VideoDetail> actionMovies, sportMovies, comedyMovies, romanticMovies, fantasyMovies;
     private ViewPager sliderPager;
     private List<SliderSide> uploadsSlider;
     private TabLayout indicator, tabMovieAction;
@@ -73,12 +73,11 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.nav_drawer_open,
                 R.string.nav_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 //        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         uploadListLatest = new ArrayList<>();
         uploadListPoppular = new ArrayList<>();
         actionMovies = new ArrayList<>();
-        adventure = new ArrayList<>();
+        fantasyMovies = new ArrayList<>();
         comedyMovies = new ArrayList<>();
         sportMovies = new ArrayList<>();
         romanticMovies = new ArrayList<>();
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
                 uploadListPoppular.removeAll(uploadListPoppular);
                 uploadsSlider.removeAll(uploadsSlider);
                 actionMovies.removeAll(actionMovies);
-                adventure.removeAll(adventure);
+                fantasyMovies.removeAll(fantasyMovies);
                 comedyMovies.removeAll(comedyMovies);
                 romanticMovies.removeAll(romanticMovies);
                 sportMovies.removeAll(sportMovies);
@@ -133,10 +132,10 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
                     if(upload.getVideoCategory().equals("Action")) {
                         actionMovies.add(upload);
                     }
-                    if(upload.getVideoCategory().equals("Adventure")) {
-                        adventure.add(upload);
+                    if(upload.getVideoCategory().equals("Fantasy")) {
+                        fantasyMovies.add(upload);
                     }
-                    if(upload.getVideoCategory().equals("Comedy")) {
+                    if(upload.getVideoCategory().equals("Cartoon")) {
                         comedyMovies.add(upload);
                     }
                     if(upload.getVideoCategory().equals("Romantic")) {
@@ -169,10 +168,10 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
                 iniActionMovies();
                 break;
             case 1:
-                iniAdventureMovies();
+                initFantasyMovies();
                 break;
             case 2:
-                iniComedyMovies();
+                initCartoonMovies();
                 break;
             case 3:
                 iniRomanticMovies();
@@ -220,8 +219,8 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         tab.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         movieShowAdapter.notifyDataSetChanged();
     }
-    private void iniAdventureMovies() {
-        movieShowAdapter = new MovieShowAdapter(this, adventure, this);
+    private void initFantasyMovies() {
+        movieShowAdapter = new MovieShowAdapter(this, fantasyMovies, this);
         tab.setAdapter(movieShowAdapter);
         tab.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         movieShowAdapter.notifyDataSetChanged();
@@ -232,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         tab.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         movieShowAdapter.notifyDataSetChanged();
     }
-    private void iniComedyMovies() {
+    private void initCartoonMovies() {
         movieShowAdapter = new MovieShowAdapter(this, comedyMovies, this);
         tab.setAdapter(movieShowAdapter);
         tab.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -242,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
     private void moviesViewTab() {
 
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Action"));
-        tabMovieAction.addTab(tabMovieAction.newTab().setText("Adventure"));
-        tabMovieAction.addTab(tabMovieAction.newTab().setText("Comedy"));
+        tabMovieAction.addTab(tabMovieAction.newTab().setText("Fantasy"));
+        tabMovieAction.addTab(tabMovieAction.newTab().setText("Cartoon"));
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Romantic"));
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Sports"));
         tabMovieAction.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -256,10 +255,10 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
                         iniActionMovies();
                         break;
                     case 1:
-                        iniAdventureMovies();
+                        initFantasyMovies();
                         break;
                     case 2:
-                        iniComedyMovies();
+                        initCartoonMovies();
                         break;
                     case 3:
                         iniRomanticMovies();
@@ -289,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         rcvMovies = findViewById(R.id.rcvMovies);
         tab = findViewById(R.id.tabRecycler);
 
+        navigationView = findViewById(R.id.navigation_view);
         imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.img_avatar);
         txtName = navigationView.getHeaderView(0).findViewById(R.id.txt_account_name);
         txtEmail = navigationView.getHeaderView(0).findViewById(R.id.txt_account_email);
@@ -317,12 +317,8 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
     @Override
     public void onMovieClick(VideoDetail videoDetail, ImageView imageView) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
-        intent.putExtra("title", videoDetail.getVideoName());
-        intent.putExtra("imgUrl", videoDetail.getVideoThumb());
-        intent.putExtra("imgCover", videoDetail.getVideoThumb());
-        intent.putExtra("movieUrl", videoDetail.getVideoUrl());
-        intent.putExtra("movieDetail", videoDetail.getVideoDescription());
-        intent.putExtra("movieCategory", videoDetail.getVideoCategory());
+        intent.putExtra("video", videoDetail);
+
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
                 imageView, "sharedName");
         startActivity(intent, options.toBundle());
@@ -336,8 +332,17 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
 
                 break;
             case R.id.nav_favorite:
+                Intent intentFavor = new Intent(this, MovieFavoriteActivity.class);
+                startActivity(intentFavor);
                 break;
             case R.id.nav_account:
+
+                break;
+            case R.id.nav_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, SignInActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
