@@ -16,6 +16,9 @@
         android:theme="@style/Theme.FinalProject_MovieAppClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".MovieFavoriteActivity"
             android:exported="false" />
         <activity

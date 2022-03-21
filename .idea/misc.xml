@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable-anydpi/ic_play_erro.xml" value="0.2703125" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/custom_input_black.xml" value="0.14635416666666667" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/cuustom_input.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/default_indicator.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/gradient_bg.xml" value="0.2703125" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_email_24.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_favorite_24.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_favorite_24_white.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/indicator_selector.xml" value="0.2703125" />
@@ -15,6 +18,7 @@
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.2328125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout-w936dp/activity_login.xml" value="0.190625" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/actionbar.xml" value="0.25416666666666665" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_account.xml" value="0.25416666666666665" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_movie_detail.xml" value="0.25416666666666665" />

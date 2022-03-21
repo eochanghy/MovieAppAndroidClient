@@ -289,12 +289,13 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         tab = findViewById(R.id.tabRecycler);
 
         navigationView = findViewById(R.id.navigation_view);
+
+    }
+
+    public void showUserInformation() {
         imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.img_avatar);
         txtName = navigationView.getHeaderView(0).findViewById(R.id.txt_account_name);
         txtEmail = navigationView.getHeaderView(0).findViewById(R.id.txt_account_email);
-    }
-
-    private void showUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) {
             return;
@@ -329,14 +330,14 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_home:
-
-                break;
+                return false;
             case R.id.nav_favorite:
                 Intent intentFavor = new Intent(this, MovieFavoriteActivity.class);
                 startActivity(intentFavor);
                 break;
             case R.id.nav_account:
-
+                Intent intentAccount = new Intent(this, AccountActivity.class);
+                startActivity(intentAccount);
                 break;
             case R.id.nav_sign_out:
                 FirebaseAuth.getInstance().signOut();

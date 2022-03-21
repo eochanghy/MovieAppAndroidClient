@@ -114,9 +114,10 @@ public class MovieFavoriteActivity extends AppCompatActivity implements Navigati
                 break;
             case R.id.nav_favorite:
 
-                break;
+                return false;
             case R.id.nav_account:
-
+                Intent intentAccount = new Intent(this, AccountActivity.class);
+                startActivity(intentAccount);
                 break;
             case R.id.nav_sign_out:
                 FirebaseAuth.getInstance().signOut();
@@ -150,8 +151,12 @@ public class MovieFavoriteActivity extends AppCompatActivity implements Navigati
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
