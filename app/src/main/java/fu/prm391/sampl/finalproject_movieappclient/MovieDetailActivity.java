@@ -144,6 +144,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
         cartoonMovies = new ArrayList<>();
         actionMovies = new ArrayList<>();
         fantasyMovies = new ArrayList<>();
+        romanticMovies = new ArrayList<>();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("videos");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -163,7 +164,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieItemC
                     if(upload.getVideoCategory().equals("Romantic")) {
                         romanticMovies.add(upload);
                     }
-                    if(upload.getVideoCategory().equals("Sports")) {
+                    if(upload.getVideoCategory().equals("Sport")) {
                         sportMovies.add(upload);
                     }
                 }

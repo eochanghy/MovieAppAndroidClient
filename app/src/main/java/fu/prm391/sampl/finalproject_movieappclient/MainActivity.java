@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
                     if(upload.getVideoCategory().equals("Romantic")) {
                         romanticMovies.add(upload);
                     }
-                    if(upload.getVideoCategory().equals("Sports")) {
+                    if(upload.getVideoCategory().equals("Sport")) {
                         sportMovies.add(upload);
                     }
 //                    uploads.removeAll(uploads);
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements MovieItemClickLis
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Fantasy"));
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Cartoon"));
         tabMovieAction.addTab(tabMovieAction.newTab().setText("Romantic"));
-        tabMovieAction.addTab(tabMovieAction.newTab().setText("Sports"));
+        tabMovieAction.addTab(tabMovieAction.newTab().setText("Sport"));
         tabMovieAction.setTabGravity(TabLayout.GRAVITY_FILL);
         tabMovieAction.setTabTextColors(ColorStateList.valueOf(Color.WHITE));
         tabMovieAction.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

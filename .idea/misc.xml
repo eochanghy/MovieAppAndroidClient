@@ -11,6 +11,8 @@
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_email_24.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_favorite_24.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_favorite_24_white.xml" value="0.2703125" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_fullscreen_24.xml" value="0.2703125" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/ic_fullscreen_exit_24.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/indicator_selector.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/selected_indicator.xml" value="0.2703125" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/drawable/selector_whishlist_item.xml" value="0.2703125" />
@@ -28,7 +30,7 @@
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/activity_splash.xml" value="0.264" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/custom_pop_up_window.xml" value="0.25416666666666665" />
-        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/exo_playback_control_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/exo_playback_control_view.xml" value="0.2" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/item_favorite.xml" value="0.4" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/layout_header_nav.xml" value="0.25416666666666665" />
         <entry key="..\:/FPT_University/Spring2022/PRM391/FinalProject_MovieAppClient/app/src/main/res/layout/movie_item_new.xml" value="0.25416666666666665" />
