@@ -42,6 +42,14 @@ public class SignUpActivity extends AppCompatActivity {
                 onClickSignUp();
             }
         });
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -81,8 +89,8 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if(task.isSuccessful()) {
-                            progressDialog.dismiss();
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             startActivity(intent);
                             finishAffinity();

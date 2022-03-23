@@ -92,16 +92,13 @@ public class MoviePlayerActivity extends AppCompatActivity {
         playVideo();
     }
 
-    private void hideActionBar() {
-        getSupportActionBar().hide();
-    }
     private void setFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
     private void playVideo() {
         try {
-            String playerInfo = Util.getUserAgent(this, "FinalProject_MovieAppClient");
+            String playerInfo = Util.getUserAgent(this, "PHEPHIM");
             DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, playerInfo);
             MediaSource mediaSource = new ExtractorMediaSource(videoUri, dataSourceFactory, extractorsFactory ,null, null);
             playerView.setPlayer(exoPlayer);
